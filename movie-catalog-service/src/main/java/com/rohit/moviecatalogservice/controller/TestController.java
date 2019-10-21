@@ -1,5 +1,7 @@
 package com.rohit.moviecatalogservice.controller;
 
+import com.rohit.moviecatalogservice.service.MovieInfoService;
+import com.rohit.moviecatalogservice.service.RatingsDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,26 +24,20 @@ public class TestController {
 //    @Autowired
 //    private WebClient.Builder webClientBuilder;
 
+    @Autowired
+    private MovieInfoService movieInfoService;
+
+    @Autowired
+    private RatingsDataService ratingsDataService;
+
     @GetMapping("/test")
     public String testMethod() {
         return "movie catalog service";
     }
 
-    @GetMapping("/movieInfoService")
-    public String movieInfoService() {
-
-        String webResult = webClientBuilder.build()
-                .get()
-                .uri("http://localhost:8082/info/test")
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        String restTemplateResult = restTemplate.getForObject("http://movie-info-service/info/test", String.class);
-        return webResult;
+    @GetMapping("/combined")
+    public String CombinedData() {
+        return movieInfoService.movieInfoService() + ratingsDataService.ratingsDataService();
     }
 
-    @GetMapping("/ratingsDataService")
-    public String ratingsDataService() {
-        return restTemplate.getForObject("http://ratings-data-service/ratings/test", String.class);
-    }
 }
