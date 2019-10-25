@@ -43,6 +43,7 @@ public class MovieInfoService {
                     @HystrixProperty(name = "maxQueueSize", value = "5")
             }
     )
+
     public String bulkHeadPattern() {
         String webResult = webClientBuilder.build()
                 .get()
